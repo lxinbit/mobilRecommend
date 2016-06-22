@@ -32,3 +32,17 @@ LINES TERMINATED BY '\n'
 ignore 1 lines; 
 
 
+select *
+from UI31
+into outfile '/var/lib/mysql-files/UI31.csv'
+FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n';
+
+select count(distinct item_id)
+from train_user
+where time_stamp >= '2014-12-1 00:00:00' and
+time_stamp < '2014-12-2 00:00:00' and
+behavior_type = 4
+group by user_id,item_id
+into outfile '/var/lib/mysql-files/UI30RealBuy.csv'
+FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n';
+
