@@ -31,19 +31,20 @@ def ReadCSV(fileName, cols, Dtype):
 
 
 def ReadTrainData(fileName):
-    cols = None
+    NumCol = len(pd.read_csv(fileName, nrows=1).columns)
+    cols = range(3, NumCol)
     Dtype = None
     data = ReadCSV(fileName, cols, Dtype)
-    Xtrain = data[:, 4:]
-    Ytrain = data[:, 3]
+    Xtrain = data[:, 1:]
+    Ytrain = data[:, 0]
     return Xtrain, Ytrain
 
 
 def ReadTestData(fileName):
-    cols = None
+    NumCol = len(pd.read_csv(fileName, nrows=1).columns)
+    cols = range(3, NumCol)
     Dtype = None
-    data = ReadCSV(fileName, cols, Dtype)
-    Xtest = data[:, 3:]
+    Xtest = ReadCSV(fileName, cols, Dtype)
     return Xtest
 
 

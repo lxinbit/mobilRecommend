@@ -353,110 +353,163 @@ def IsCarNoBuy_NoBuyCate(tableName, time_offset1, unit1, time_offset2, unit2):
 def GetTrainOrPredictTable(time_start, time_end, time_start_label,
                            time_end_label, tableName, flag):
 
-    startTotal = time.time()
+    # startTotal = time.time()
 
+    # start = time.time()
+    # QueryUI(tableName, time_start, time_end)
+    # end = time.time()
+    # print "样本集查找时间: ", end - start
+
+    # if flag:
+    #     start = time.time()
+    #     QueryLabel(tableName, time_start_label, time_end_label)
+    #     end = time.time()
+    #     print "训练样本标签查找时间: ", end - start
+
+    # #######################################################################
+    # # UI feature
+    # start = time.time()
+    # UserActItemCount(tableName, time_start_label, 1, 10, 'day')
+    # UserActItemCount(tableName, time_start_label, 2, 10, 'day')
+    # UserActItemCount(tableName, time_start_label, 3, 10, 'day')
+    # UserActItemCount(tableName, time_start_label, 4, 10, 'day')
+    # end = time.time()
+    # print "用户对商品行为次数查找时间: ", end - start
+
+    # start = time.time()
+    # UserItemFirstHourGap(tableName, time_start_label, 10, 'day')
+    # UserItemLastHourGap(tableName, time_start_label, 10, 'day')
+    # end = time.time()
+    # print "用户对商品最早最晚访问时间查找时间: ", end - start
+
+    # start = time.time()
+    # UserItemActDays(tableName, time_start_label, 10, 'day')
+    # end = time.time()
+    # print "用户U对商品I访问的天数查找时间: ", end - start
+
+    # start = time.time()
+    # UserItemIsCarNoBuy(tableName, time_start_label, 6, 'hour')
+    # UserItemIsCarNoBuy(tableName, time_start_label, 12, 'hour')
+    # UserItemIsCarNoBuy(tableName, time_start_label, 24, 'hour')
+    # end = time.time()
+    # print "用户U对商品I加入购物车但没买,6h,12h,24h查找时间: ", end - start
+
+    # ##########################################################################
+    # # UC feature
+    # start = time.time()
+    # UserActCateCount(tableName, time_start_label, 1, 10, 'day')
+    # UserActCateCount(tableName, time_start_label, 2, 10, 'day')
+    # UserActCateCount(tableName, time_start_label, 3, 10, 'day')
+    # UserActCateCount(tableName, time_start_label, 4, 10, 'day')
+    # end = time.time()
+    # print "用户对类别行为次数查找时间: ", end - start
+
+    # start = time.time()
+    # UserCateNoBuy(tableName, time_start_label, 24, 'hour')
+    # UserCateNoBuy(tableName, time_start_label, 3, 'day')
+    # UserCateNoBuy(tableName, time_start_label, 10, 'day')
+    # end = time.time()
+    # print "用户U对类别没买,24h,3d,10d查找时间: ", end - start
+
+    # ############################################################################
+    # # U feature
+    # start = time.time()
+    # UserActCount(tableName, time_start_label, 1, 10, 'day')
+    # UserActCount(tableName, time_start_label, 2, 10, 'day')
+    # UserActCount(tableName, time_start_label, 3, 10, 'day')
+    # UserActCount(tableName, time_start_label, 4, 10, 'day')
+    # end = time.time()
+    # print "用户行为次数查找时间: ", end - start
+
+    # start = time.time()
+    # UserBuyDivOther(tableName, 1, 10, 'day')
+    # UserBuyDivOther(tableName, 2, 10, 'day')
+    # UserBuyDivOther(tableName, 3, 10, 'day')
+    # end = time.time()
+    # print "用户购买除以其他行为查找时间: ", end - start
+
+    # #######################################################################
+    # # I feature
+    # start = time.time()
+    # ItemActCount(tableName, time_start_label, 1, 10, 'day')
+    # ItemActCount(tableName, time_start_label, 2, 10, 'day')
+    # ItemActCount(tableName, time_start_label, 3, 10, 'day')
+    # ItemActCount(tableName, time_start_label, 4, 10, 'day')
+    # end = time.time()
+    # print "商品行为次数查找时间: ", end - start
+
+    # start = time.time()
+    # ItemBuyDivOther(tableName, 1, 10, 'day')
+    # ItemBuyDivOther(tableName, 2, 10, 'day')
+    # ItemBuyDivOther(tableName, 3, 10, 'day')
+    # end = time.time()
+    # print "商品购买除以其他行为查找时间: ", end - start
+
+    # #####################################################################
+    # # UI&UC feature
+    # start = time.time()
+    # IsCarNoBuy_NoBuyCate(tableName, 6, 'hour', 24, 'hour')
+    # IsCarNoBuy_NoBuyCate(tableName, 12, 'hour', 24, 'hour')
+    # IsCarNoBuy_NoBuyCate(tableName, 24, 'hour', 24, 'hour')
+    # IsCarNoBuy_NoBuyCate(tableName, 24, 'hour', 3, 'day')
+    # end = time.time()
+    # print "没买I且没买与I相同类别的商品查找时间: ", end - start
+
+    # endTotal = time.time()
+    # print 'total time is: ', endTotal - startTotal
+
+    ####################################################################
+    # new feature
     start = time.time()
-    QueryUI(tableName, time_start, time_end)
-    end = time.time()
-    print "样本集查找时间: ", end - start
-
-    if flag:
-        start = time.time()
-        QueryLabel(tableName, time_start_label, time_end_label)
-        end = time.time()
-        print "训练样本标签查找时间: ", end - start
-
-    #######################################################################
-    # UI feature
-    start = time.time()
-    UserActItemCount(tableName, time_start_label, 1, 10, 'day')
-    UserActItemCount(tableName, time_start_label, 2, 10, 'day')
-    UserActItemCount(tableName, time_start_label, 3, 10, 'day')
-    UserActItemCount(tableName, time_start_label, 4, 10, 'day')
+    UserActItemCount(tableName, time_start_label, 1, 3, 'day')
+    UserActItemCount(tableName, time_start_label, 2, 3, 'day')
+    UserActItemCount(tableName, time_start_label, 3, 3, 'day')
+    UserActItemCount(tableName, time_start_label, 4, 3, 'day')
     end = time.time()
     print "用户对商品行为次数查找时间: ", end - start
 
     start = time.time()
-    UserItemFirstHourGap(tableName, time_start_label, 10, 'day')
-    UserItemLastHourGap(tableName, time_start_label, 10, 'day')
-    end = time.time()
-    print "用户对商品最早最晚访问时间查找时间: ", end - start
-
-    start = time.time()
-    UserItemActDays(tableName, time_start_label, 10, 'day')
+    UserItemActDays(tableName, time_start_label, 3, 'day')
     end = time.time()
     print "用户U对商品I访问的天数查找时间: ", end - start
 
     start = time.time()
-    UserItemIsCarNoBuy(tableName, time_start_label, 6, 'hour')
-    UserItemIsCarNoBuy(tableName, time_start_label, 12, 'hour')
-    UserItemIsCarNoBuy(tableName, time_start_label, 24, 'hour')
-    end = time.time()
-    print "用户U对商品I加入购物车但没买,6h,12h,24h查找时间: ", end - start
-
-    ##########################################################################
-    # UC feature
-    start = time.time()
-    UserActCateCount(tableName, time_start_label, 1, 10, 'day')
-    UserActCateCount(tableName, time_start_label, 2, 10, 'day')
-    UserActCateCount(tableName, time_start_label, 3, 10, 'day')
-    UserActCateCount(tableName, time_start_label, 4, 10, 'day')
+    UserActCateCount(tableName, time_start_label, 1, 3, 'day')
+    UserActCateCount(tableName, time_start_label, 2, 3, 'day')
+    UserActCateCount(tableName, time_start_label, 3, 3, 'day')
+    UserActCateCount(tableName, time_start_label, 4, 3, 'day')
     end = time.time()
     print "用户对类别行为次数查找时间: ", end - start
 
     start = time.time()
-    UserCateNoBuy(tableName, time_start_label, 24, 'hour')
-    UserCateNoBuy(tableName, time_start_label, 3, 'day')
-    UserCateNoBuy(tableName, time_start_label, 10, 'day')
-    end = time.time()
-    print "用户U对类别没买,24h,3d,10d查找时间: ", end - start
-
-    ############################################################################
-    # U feature
-    start = time.time()
-    UserActCount(tableName, time_start_label, 1, 10, 'day')
-    UserActCount(tableName, time_start_label, 2, 10, 'day')
-    UserActCount(tableName, time_start_label, 3, 10, 'day')
-    UserActCount(tableName, time_start_label, 4, 10, 'day')
+    UserActCount(tableName, time_start_label, 1, 3, 'day')
+    UserActCount(tableName, time_start_label, 2, 3, 'day')
+    UserActCount(tableName, time_start_label, 3, 3, 'day')
+    UserActCount(tableName, time_start_label, 4, 3, 'day')
     end = time.time()
     print "用户行为次数查找时间: ", end - start
 
     start = time.time()
-    UserBuyDivOther(tableName, 1, 10, 'day')
-    UserBuyDivOther(tableName, 2, 10, 'day')
-    UserBuyDivOther(tableName, 3, 10, 'day')
+    UserBuyDivOther(tableName, 1, 3, 'day')
+    UserBuyDivOther(tableName, 2, 3, 'day')
+    UserBuyDivOther(tableName, 3, 3, 'day')
     end = time.time()
     print "用户购买除以其他行为查找时间: ", end - start
 
-    #######################################################################
-    # I feature
     start = time.time()
-    ItemActCount(tableName, time_start_label, 1, 10, 'day')
-    ItemActCount(tableName, time_start_label, 2, 10, 'day')
-    ItemActCount(tableName, time_start_label, 3, 10, 'day')
-    ItemActCount(tableName, time_start_label, 4, 10, 'day')
+    ItemActCount(tableName, time_start_label, 1, 3, 'day')
+    ItemActCount(tableName, time_start_label, 2, 3, 'day')
+    ItemActCount(tableName, time_start_label, 3, 3, 'day')
+    ItemActCount(tableName, time_start_label, 4, 3, 'day')
     end = time.time()
     print "商品行为次数查找时间: ", end - start
 
     start = time.time()
-    ItemBuyDivOther(tableName, 1, 10, 'day')
-    ItemBuyDivOther(tableName, 2, 10, 'day')
-    ItemBuyDivOther(tableName, 3, 10, 'day')
+    ItemBuyDivOther(tableName, 1, 3, 'day')
+    ItemBuyDivOther(tableName, 2, 3, 'day')
+    ItemBuyDivOther(tableName, 3, 3, 'day')
     end = time.time()
     print "商品购买除以其他行为查找时间: ", end - start
-
-    #####################################################################
-    # UI&UC feature
-    start = time.time()
-    IsCarNoBuy_NoBuyCate(tableName, 6, 'hour', 24, 'hour')
-    IsCarNoBuy_NoBuyCate(tableName, 12, 'hour', 24, 'hour')
-    IsCarNoBuy_NoBuyCate(tableName, 24, 'hour', 24, 'hour')
-    IsCarNoBuy_NoBuyCate(tableName, 24, 'hour', 3, 'day')
-    end = time.time()
-    print "没买I且没买与I相同类别的商品查找时间: ", end - start
-
-    endTotal = time.time()
-    print 'total time is: ', endTotal - startTotal
 
 
 ############################################################################
@@ -479,6 +532,19 @@ def GetInterTable(tableName):
 ###########################################################################
 if __name__ == '__main__':
 
+    # time_start = '2014-12-06 00:00:00'
+    # time_end = '2014-12-16 00:00:00'
+    # time_start_label = '2014-12-16 00:00:00'
+    # time_end_label = '2014-12-17 00:00:00'
+    # tableName = 'UI28'
+
+    # start = time.time()
+    # flag = True
+    # GetTrainOrPredictTable(time_start, time_end, time_start_label,
+    #                        time_end_label, tableName, flag)
+    # end = time.time()
+    # print "Get Train table UI28 time is :", end - start
+
     # time_start = '2014-12-07 00:00:00'
     # time_end = '2014-12-17 00:00:00'
     # time_start_label = '2014-12-17 00:00:00'
@@ -491,11 +557,6 @@ if __name__ == '__main__':
     #                        time_end_label, tableName, flag)
     # end = time.time()
     # print "Get Train table UI29 time is :", end - start
-
-    # start = time.time()
-    # GetInterTable(tableName)
-    # end = time.time()
-    # print "Get Intersect table UI29 time is :", end - start
 
     time_start = '2014-12-08 00:00:00'
     time_end = '2014-12-18 00:00:00'
