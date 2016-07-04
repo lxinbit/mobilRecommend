@@ -5,57 +5,180 @@ import numpy as np
 import cPickle
 from ReadCSV import *
 import csv
+import xgboost as xgb
 
 
-if __name__ == '__main__':
-
+def onlinePredict():
     modelFilePath = '../modelFile/'
-    modelFileName = 'GBDT300Dec70.pkl'
+    modelFileName = 'GBDT200Dec40.pkl'
     model = cPickle.load(open(modelFilePath + modelFileName, 'r'))
 
-    fileName = '../data/UI31d1.csv'
+    fileName = '../data_new/UI31.csv'
     Xtest = ReadTestData(fileName)
     UI = ReadUI(fileName)
 
     pYtest = model.predict_proba(Xtest)[:, 1]
     pYtest = np.array(pYtest)
-    UI = UI[pYtest > 0.2]
+    UI = UI[pYtest > 0.5]
+    pYtest = pYtest[pYtest > 0.5]
 
     fielItems = '../data/tianchi_fresh_comp_train_item.csv'
     Items = ReadCSV(fielItems, [0], object)
+    ItemsDic = {}
+    for i in range(1, len(Items)):
+        item = Items[i][0]
+        ItemsDic[item] = True
+    del Items
 
     UISubmit = []
-    for ui in UI:
-        if ui[1] in Items:
-            UISubmit.append(ui)
+    for i in range(len(pYtest)):
+        if UI[i][1] in ItemsDic:
+            temp = (UI[i][0], UI[i][1], pYtest[i])
+            UISubmit.append(temp)
+    UISubmit.sort(key=lambda x: x[2], reverse=True)
+    submitNum = 517
+    UISubmit = UISubmit[0:submitNum]
 
-    fileSubmit = '../data/model.csv'
+    fileSubmit = '../data/submitFile/model.csv'
     f = open(fileSubmit, 'w')
     writer = csv.writer(f)
     writer.writerow(['user_id', 'item_id'])
     for ui in UISubmit:
-        writer.writerow(ui)
+        writer.writerow([ui[0], ui[1]])
     f.close()
 
-    # modelFilePath = '../modelFile/'
-    # modelFileName = 'GBDT100Dec70.pkl'
-    # model = cPickle.load(open(modelFilePath + modelFileName, 'r'))
 
-    # fileName = '../data/UI31Inter.csv'
-    # Xtest = ReadTestData(fileName)
-    # UI = ReadUI(fileName)
+def onlinePredictXgboost():
+    modelFilePath = '../modelFile/'
+    modelFileName = 'xgboost3.model'
+    # bst.dump_model(modelFilePath + modelFileName)
+    modelName = modelFilePath + modelFileName
+    bst = xgb.Booster(model_file=modelName)
+    fileName = '../data_new/UI31.csv'
+    Xtest = ReadTestData(fileName)
+    UI = ReadUI(fileName)
+    dtest = xgb.DMatrix(Xtest)
+    pYtest = bst.predict(dtest)
 
-    # pYtest = model.predict_proba(Xtest)[:, 1]
-    # UIProb = zip(UI, pYtest)
+    pYtest = np.array(pYtest)
+    UI = UI[pYtest > 0.5]
+    pYtest = pYtest[pYtest > 0.5]
 
-    # UIProb.sort(key=lambda x: x[1], reverse=True)
-    # submitNum = 517
-    # UIProb = UIProb[0:submitNum]
+    fielItems = '../data/tianchi_fresh_comp_train_item.csv'
+    Items = ReadCSV(fielItems, [0], object)
+    ItemsDic = {}
+    for i in range(1, len(Items)):
+        item = Items[i][0]
+        ItemsDic[item] = True
+    del Items
 
-    # fileSubmit = '../data/model.csv'
-    # f = open(fileSubmit, 'w')
-    # writer = csv.writer(f)
-    # writer.writerow(['user_id', 'item_id'])
-    # for uip in UIProb:
-    #     writer.writerow([uip[0][0], uip[0][1]])
-    # f.close()
+    UISubmit = []
+    for i in range(len(pYtest)):
+        if UI[i][1] in ItemsDic:
+            temp = (UI[i][0], UI[i][1], pYtest[i])
+            UISubmit.append(temp)
+    UISubmit.sort(key=lambda x: x[2], reverse=True)
+    submitNum = 517
+    UISubmit = UISubmit[0:submitNum]
+
+    fileSubmit = '../data/submitFile/model.csv'
+    f = open(fileSubmit, 'w')
+    writer = csv.writer(f)
+    writer.writerow(['user_id', 'item_id'])
+    for ui in UISubmit:
+        writer.writerow([ui[0], ui[1]])
+    f.close()
+
+
+def onlinePredictKeras():
+    modelFilePath = '../modelFile/'
+    modelFileName = 'kerasmoedl.HD'
+    model = cPickle.load(open(modelFilePath + modelFileName, 'r'))
+
+    fileName = '../data/UI31.csv'
+    Xtest = ReadTestData(fileName)
+    UI = ReadUI(fileName)
+
+    pYtest = model.predict_proba(Xtest)[:, 1]
+    pYtest = np.array(pYtest)
+    UI = UI[pYtest > 0.5]
+    pYtest = pYtest[pYtest > 0.5]
+
+    fielItems = '../data/tianchi_fresh_comp_train_item.csv'
+    Items = ReadCSV(fielItems, [0], object)
+    ItemsDic = {}
+    for i in range(1, len(Items)):
+        item = Items[i][0]
+        ItemsDic[item] = True
+    del Items
+
+    UISubmit = []
+    for i in range(len(pYtest)):
+        if UI[i][1] in ItemsDic:
+            temp = (UI[i][0], UI[i][1], pYtest[i])
+            UISubmit.append(temp)
+    UISubmit.sort(key=lambda x: x[2], reverse=True)
+    submitNum = 517
+    UISubmit = UISubmit[0:submitNum]
+
+    fileSubmit = '../data/submitFile/model.csv'
+    f = open(fileSubmit, 'w')
+    writer = csv.writer(f)
+    writer.writerow(['user_id', 'item_id'])
+    for ui in UISubmit:
+        writer.writerow([ui[0], ui[1]])
+    f.close()
+
+
+def onlinePredictBlending():
+    modelFilePath = '../modelFile/'
+    modelFileName = 'LRTest.model'
+    model = cPickle.load(open(modelFilePath + modelFileName, 'r'))
+
+    fileName = '../data_new/UI31.csv'
+    Xtest = ReadTestData(fileName)
+    UI = ReadUI(fileName)
+
+    pYtest1 = model.predict_proba(Xtest)[:, 1]
+    pYtest1 = np.array(pYtest1)
+
+    modelFileName = 'xgboost3.model'
+    # bst.dump_model(modelFilePath + modelFileName)
+    modelName = modelFilePath + modelFileName
+    bst = xgb.Booster(model_file=modelName)
+
+    dtest = xgb.DMatrix(Xtest)
+    del Xtest
+    pYtest2 = bst.predict(dtest)
+    pYtest = 0.7 * pYtest2 + 0.3 * pYtest1
+    UI = UI[pYtest > 0.5]
+    pYtest = pYtest[pYtest > 0.5]
+
+    fielItems = '../data/tianchi_fresh_comp_train_item.csv'
+    Items = ReadCSV(fielItems, [0], object)
+    ItemsDic = {}
+    for i in range(1, len(Items)):
+        item = Items[i][0]
+        ItemsDic[item] = True
+    del Items
+
+    UISubmit = []
+    for i in range(len(pYtest)):
+        if UI[i][1] in ItemsDic:
+            temp = (UI[i][0], UI[i][1], pYtest[i])
+            UISubmit.append(temp)
+    UISubmit.sort(key=lambda x: x[2], reverse=True)
+    submitNum = 517
+    UISubmit = UISubmit[0:submitNum]
+
+    fileSubmit = '../data/submitFile/model.csv'
+    f = open(fileSubmit, 'w')
+    writer = csv.writer(f)
+    writer.writerow(['user_id', 'item_id'])
+    for ui in UISubmit:
+        writer.writerow([ui[0], ui[1]])
+    f.close()
+if __name__ == '__main__':
+
+    # onlinePredictXgboost()
+    onlinePredictBlending()

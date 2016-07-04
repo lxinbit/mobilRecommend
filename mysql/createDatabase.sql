@@ -33,8 +33,8 @@ ignore 1 lines;
 
 
 select *
-from UI31
-into outfile '/var/lib/mysql-files/UI31.csv'
+from UI28Inter
+into outfile '/var/lib/mysql-files/UI28Inter.csv'
 FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n';
 
 select count(distinct item_id)

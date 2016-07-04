@@ -39,8 +39,22 @@ GROUP BY user_id, item_id;
 SELECT COUNT(*) FROM
 (SELECT user_id, item_id
 FROM train_user
-WHERE  time_stamp >'2014-12-16 00:00:00' and
-time_stamp < '2014-12-17 00:00:00' AND behavior_type=4
+WHERE  time_stamp >'2014-12-13 00:00:00' and
+time_stamp < '2014-12-14 00:00:00' AND behavior_type=4
 GROUP BY user_id, item_id) T1
 INNER JOIN train_item T2
 on T1.item_id = T2.item_id;
+
+
+SELECT count(DISTINCT user_id, item_id, item_category)
+FROM train_user
+WHERE time_stamp >= '2014-12-07 00:00:00' 
+and time_stamp < '2014-12-17 00:00:00';
+
+SELECT count(1) FROM
+(SELECT DISTINCT user_id, item_id, item_category
+FROM train_user
+WHERE time_stamp >= '2014-12-07 00:00:00' 
+and time_stamp < '2014-12-17 00:00:00') T1 INNER JOIN
+(SELECT distinct item_id from train_item) T2
+ON T1.item_id = T2.item_id;
