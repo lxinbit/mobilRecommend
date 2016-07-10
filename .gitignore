@@ -1,5 +1,5 @@
 data/
 modelFile/
-pycode/*.pyc
+*.py[cod]
 *~
 data_new/
