@@ -1,3 +1,5 @@
 data/
 modelFile/
+*pyc
 *~
+data_new/
