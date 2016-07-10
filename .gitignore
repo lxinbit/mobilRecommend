@@ -3,3 +3,4 @@ modelFile/
 *.py[cod]
 *~
 data_new/
+pycode/ReadCSV.pyc
